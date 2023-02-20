@@ -1,0 +1,55 @@
+PRESUME THAT EVERYTHING IS FACEUP
+
+Classes..
+
+Card
+(attributes)
+    - suit
+    -rank
+(methods)
+    - draw
+
+Deck
+(attributes)
+    - cards
+(methods)
+    - shuffle
+    - deal card
+
+Player
+(attributes)
+    - name
+    - turn
+    - cards (hand)
+        - score
+(methods)
+    - hit or check
+
+Dealer
+(attributes)
+    - name
+    - turn
+    - cards (hand)
+        - score
+(methods)
+    - hit or check (set rules for this, no choice)
+    
+
+Game
+(attributes)
+    - winner/ loser
+    - in progress/ finished
+
+to do:
+    - make a player (like we did with deck)
+    - make a Dealer
+    - play
+    - shuffle deck
+    - player goes first (hit or stay)
+    - calculate score from the cards in hand
+    - dealers turn next
+    - calculate score from the cards in hand
+    - who won/ lost/ busted
+
+
+
