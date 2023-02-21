@@ -12,6 +12,9 @@ class Card:
     def __str__(self):
         return f'{self.rank}{self.suit}'
 
+    # def __repr__(self):
+    #     return f'{self.rank}{self.suit}'
+
 
 class Deck:
 
@@ -22,6 +25,9 @@ class Deck:
         for suit in SUITS:
             for rank in RANKS:
                 self.cards.append(Card(suit, rank))
+
+    def shuffle(self):
+        random.shuffle(self.cards)
 
 
 class Player:
@@ -40,6 +46,7 @@ class Dealer(Player):
     # inherits from Player
     def __init__(self):
         self.name = "Dealer"
+        self.hand = []
 
     def __str__(self):
         # when we write cariables and methods with the same
@@ -47,8 +54,11 @@ class Dealer(Player):
         # the parent class (Player)
         return f'{self.name} is the dealer'
 
+    def deal(self):
+        pass
+
     def turn(self):
-        # unlike player, deler follows the house rules
+        # unlike player, dealer follows the house rules
         pass
 
     def end_game(self):
@@ -56,11 +66,10 @@ class Dealer(Player):
 
 
 class Game:
-    def __init__(self, deck=None):
+    def __init__(self):
         self.player = Player()
         # the value of self.player is an instance of the class Player
         self.dealer = Dealer()
-        self.deck = deck
         self.setup()
 
     def setup(self):
@@ -70,9 +79,11 @@ class Game:
 
 
 new_game = Game()
-new_game.setup()
 print(new_game.player)
 print(new_game.dealer)
+new_game.deck.shuffle()
 for card in new_game.deck.cards:
     print(card)
 # created the game and the deck with cards
+print('Player hand is ', new_game.player.hand)
+print('Dealer hand is ', new_game.dealer.hand)
