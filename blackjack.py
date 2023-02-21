@@ -38,8 +38,9 @@ class Player:
     def __str__(self):
         return f'{self.name} is the player'
 
-    def turn(self):  # player decides how many times to hit before playig
-        pass
+    def view_cards(self):
+        for card in self.hand:
+            print(card)
 
 
 class Dealer(Player):
@@ -74,6 +75,13 @@ class Game:
         self.deck.add_cards()  # calls line 16, adds cards to the deck
         # calls the __str__ method to be called for each card
 
+    def player_turn(self):  # player decides how many times to hit before playig
+        choice = input('Hit or Check? ')
+        if choice == "Hit":
+            card = self.deck.cards.pop()
+            self.player.hand.append(card)
+            self.player.view_cards()
+
     def deal(self):
         self.setup()
         self.deck.shuffle()
@@ -83,20 +91,19 @@ class Game:
         card = self.deck.cards.pop()
         self.player.hand.append(card)
         print(f'{self.player.name}s hand is ')
-        for card in new_game.player.hand:
-            print(card)
+        self.player.view_cards()
         print(new_game.dealer)
         card = self.deck.cards.pop()
         self.dealer.hand.append(card)
         card = self.deck.cards.pop()
         self.dealer.hand.append(card)
         print('Dealer hand is ')
-        for card in new_game.dealer.hand:
-            print(card)
+        self.dealer.view_cards()
 
 
 new_game = Game()
 new_game.deal()
+new_game.player_turn()
 # for card in new_game.deck.cards:
 #     print(card)
 # created the game and the deck with cards
