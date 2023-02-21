@@ -54,9 +54,6 @@ class Dealer(Player):
         # the parent class (Player)
         return f'{self.name} is the dealer'
 
-    def deal(self):
-        pass
-
     def turn(self):
         # unlike player, dealer follows the house rules
         pass
@@ -77,13 +74,29 @@ class Game:
         self.deck.add_cards()  # calls line 16, adds cards to the deck
         # calls the __str__ method to be called for each card
 
+    def deal(self):
+        self.setup()
+        self.deck.shuffle()
+        print(new_game.player)
+        card = self.deck.cards.pop()
+        self.player.hand.append(card)
+        card = self.deck.cards.pop()
+        self.player.hand.append(card)
+        print(f'{self.player.name}s hand is ')
+        for card in new_game.player.hand:
+            print(card)
+        print(new_game.dealer)
+        card = self.deck.cards.pop()
+        self.dealer.hand.append(card)
+        card = self.deck.cards.pop()
+        self.dealer.hand.append(card)
+        print('Dealer hand is ')
+        for card in new_game.dealer.hand:
+            print(card)
+
 
 new_game = Game()
-print(new_game.player)
-print(new_game.dealer)
-new_game.deck.shuffle()
-for card in new_game.deck.cards:
-    print(card)
+new_game.deal()
+# for card in new_game.deck.cards:
+#     print(card)
 # created the game and the deck with cards
-print('Player hand is ', new_game.player.hand)
-print('Dealer hand is ', new_game.dealer.hand)
