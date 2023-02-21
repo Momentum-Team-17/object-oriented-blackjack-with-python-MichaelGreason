@@ -12,9 +12,6 @@ class Card:
     def __str__(self):
         return f'{self.rank}{self.suit}'
 
-    # def __repr__(self):
-    #     return f'{self.rank}{self.suit}'
-
 
 class Deck:
 
@@ -42,6 +39,12 @@ class Player:
         for card in self.hand:
             print(card)
 
+    # def score(self):
+    #     score = []
+    #     for card in self.hand:
+    #         score.append(sum(card.rank))
+    #         print('Player score: ', score)
+
 
 class Dealer(Player):
     # inherits from Player
@@ -54,10 +57,6 @@ class Dealer(Player):
         # as the parent class, they override the code from
         # the parent class (Player)
         return f'{self.name} is the dealer'
-
-    def turn(self):
-        # unlike player, dealer follows the house rules
-        pass
 
     def end_game(self):
         pass
@@ -80,7 +79,14 @@ class Game:
         if choice == "Hit":
             card = self.deck.cards.pop()
             self.player.hand.append(card)
+            print(f'{self.player.name}s hand is ')
             self.player.view_cards()
+
+    def dealer_turn(self):
+        card = self.deck.cards.pop()
+        self.dealer.hand.append(card)
+        print('Dealer hand is ')
+        self.dealer.view_cards()
 
     def deal(self):
         self.setup()
@@ -100,10 +106,15 @@ class Game:
         print('Dealer hand is ')
         self.dealer.view_cards()
 
+    # def score(self):
+    #     score = ' '
+    #     for card in self.hand:
+    #         score.append(int(card.rank) + int(card.rank))
+    #         print(score)
+
 
 new_game = Game()
 new_game.deal()
 new_game.player_turn()
-# for card in new_game.deck.cards:
-#     print(card)
-# created the game and the deck with cards
+# new_game.player.score()
+new_game.dealer_turn()
