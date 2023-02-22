@@ -41,10 +41,10 @@ Game
     - in progress/ finished
 
 to do:
-    - make a player (like we did with deck)
-    - make a Dealer
-    - shuffle deck
-    - player goes first (hit or stay)
+    - ✅make a player (like we did with deck)
+    - ✅make a Dealer
+    - ✅shuffle deck
+    - ✅player goes first (hit or stay)
     - calculate score from the cards in hand
     - dealers turn next
     - calculate score from the cards in hand

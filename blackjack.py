@@ -39,11 +39,30 @@ class Player:
         for card in self.hand:
             print(card)
 
-    # def score(self):
-    #     score = []
-    #     for card in self.hand:
-    #         score.append(sum(card.rank))
-    #         print('Player score: ', score)
+    def calculate(self):
+        card_value = 0
+        score = 0
+        for card in self.hand:
+            if card.rank in ['J', 'Q', 'K']:
+                card_value = 10
+            # elif card.rank == 'A':
+            #     value_choice = input("Do you want 1 or 11? ")
+            #     if value_choice == '1':
+            #         card_value = 1
+            #     elif value_choice == '11':
+            #         card_value = 11
+            #     else:
+            #         "This is not applicable"
+            elif card.rank == 'A':
+                if score >= 11:
+                    card_value = 1
+                else:
+                    card_value = 11
+            else:
+                card_value = card.rank
+            score += card_value
+        print('Score: ', score)
+        return score
 
 
 class Dealer(Player):
@@ -81,6 +100,8 @@ class Game:
             self.player.hand.append(card)
             print(f'{self.player.name}s hand is ')
             self.player.view_cards()
+        else:
+            print(f'{self.player.name} chose to stay, Dealers turn ')
 
     def dealer_turn(self):
         card = self.deck.cards.pop()
@@ -105,16 +126,15 @@ class Game:
         self.dealer.hand.append(card)
         print('Dealer hand is ')
         self.dealer.view_cards()
-
-    # def score(self):
-    #     score = ' '
-    #     for card in self.hand:
-    #         score.append(int(card.rank) + int(card.rank))
-    #         print(score)
+        
+    def win_lose(self):
+        while self.player.calculate():
+            
 
 
 new_game = Game()
 new_game.deal()
 new_game.player_turn()
-# new_game.player.score()
+new_game.player.calculate()
 new_game.dealer_turn()
+new_game.dealer.calculate()
