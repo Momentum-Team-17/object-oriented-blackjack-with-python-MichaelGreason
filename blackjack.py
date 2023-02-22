@@ -61,7 +61,7 @@ class Player:
             else:
                 card_value = card.rank
             score += card_value
-        print('Score: ', score)
+        print('Player score: ', score)
         return score
 
 
@@ -77,8 +77,30 @@ class Dealer(Player):
         # the parent class (Player)
         return f'{self.name} is the dealer'
 
-    def end_game(self):
-        pass
+    def calculate(self):
+        card_value = 0
+        score = 0
+        for card in self.hand:
+            if card.rank in ['J', 'Q', 'K']:
+                card_value = 10
+            # elif card.rank == 'A':
+            #     value_choice = input("Do you want 1 or 11? ")
+            #     if value_choice == '1':
+            #         card_value = 1
+            #     elif value_choice == '11':
+            #         card_value = 11
+            #     else:
+            #         "This is not applicable"
+            elif card.rank == 'A':
+                if score >= 11:
+                    card_value = 1
+                else:
+                    card_value = 11
+            else:
+                card_value = card.rank
+            score += card_value
+        print('Dealer score: ', score)
+        return score
 
 
 class Game:
@@ -92,22 +114,6 @@ class Game:
         self.deck = Deck()  # calls line 13, creates a deck
         self.deck.add_cards()  # calls line 16, adds cards to the deck
         # calls the __str__ method to be called for each card
-
-    def player_turn(self):  # player decides how many times to hit before playig
-        choice = input('Hit or Check? ')
-        if choice == "Hit":
-            card = self.deck.cards.pop()
-            self.player.hand.append(card)
-            print(f'{self.player.name}s hand is ')
-            self.player.view_cards()
-        else:
-            print(f'{self.player.name} chose to stay, Dealers turn ')
-
-    def dealer_turn(self):
-        card = self.deck.cards.pop()
-        self.dealer.hand.append(card)
-        print('Dealer hand is ')
-        self.dealer.view_cards()
 
     def deal(self):
         self.setup()
@@ -126,15 +132,69 @@ class Game:
         self.dealer.hand.append(card)
         print('Dealer hand is ')
         self.dealer.view_cards()
-        
-    def win_lose(self):
-        while self.player.calculate():
-            
+
+    def player_turn(self, stay):  # player decides how many times to hit before playing
+        choice = input('Hit or Check? ')
+        player_score = self.player.calculate()
+        if player_score < 21:
+            if choice == "Hit":
+                card = self.deck.cards.pop()
+                self.player.hand.append(card)
+                print(f'{self.player.name}s hand is ')
+                self.player.view_cards()
+            else:
+                print(f'{self.player.name} chose to stay, Dealers turn ')
+                stay = True
+        elif player_score > 21:
+            print('Bust!')
+        return self.player.calculate(), stay
+
+    def dealer_turn(self):
+        card = self.deck.cards.pop()
+        dealer_score = self.dealer.calculate()
+        if dealer_score < 21:
+            if self.dealer.calculate() < 17:
+                self.dealer.hand.append(card)
+                print('Dealer hand is ')
+                self.dealer.view_cards()
+        elif self.dealer.calculate() > 21:
+            print('Dealer bust! You win!')
+        return self.dealer.calculate()
+
+    def turn_take(self):
+        p_score = 0
+        d_score = 0
+        stay = False
+        while p_score < 21 and not stay:
+            p_score, stay = self.player_turn(stay)
+        if p_score > 21:
+            print('Bust! You lose.')
+            return
+        while d_score < 17:
+            d_score = self.dealer_turn()
+        print('Player score: ', p_score)
+        print('Dealer score: ', d_score)
+
+    def game_over(self):
+        player_score = self.player.calculate()
+        dealer_score = self.dealer.calculate()
+        if player_score < 21:
+            if player_score > dealer_score:
+                print('You win!')
+            else:
+                print('You Lose')
+        elif player_score > 21:
+            print("Bust! You lose!")
+        elif dealer_score < 21:
+            if player_score < dealer_score:
+                print('You Lose')
+            else:
+                print('You win!')
+        elif dealer_score > 21:
+            print('Dealer bust! You Win!')
 
 
 new_game = Game()
 new_game.deal()
-new_game.player_turn()
-new_game.player.calculate()
-new_game.dealer_turn()
-new_game.dealer.calculate()
+new_game.turn_take()
+new_game.game_over()
