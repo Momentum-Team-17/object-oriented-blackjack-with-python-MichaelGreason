@@ -181,7 +181,7 @@ class Game:
         if player_score < 21:
             if player_score > dealer_score:
                 print('You win!')
-            else:
+            elif dealer_score < 21:
                 print('You Lose')
         elif player_score > 21:
             print("Bust! You lose!")
